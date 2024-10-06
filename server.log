@@ -1,0 +1,5 @@
+[2024-10-05 23:29:27] Server is listening on port 8080
+[2024-10-05 23:31:10] Server is listening on port 8080
+[2024-10-05 23:35:16] [GET] / - Thread: 7908029939017848341
+[2024-10-05 23:35:16] [GET] /styles.css - Thread: 8618340777889667675
+[2024-10-05 23:35:17] [GET] /favicon.ico - Thread: 12500899254894927240

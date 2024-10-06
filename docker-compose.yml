@@ -1,0 +1,11 @@
+version: '3'
+services:
+  web:
+    build: .
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./www:/usr/src/app/www
+    environment:
+      - PORT=8080
+      - MAX_THREADS=4

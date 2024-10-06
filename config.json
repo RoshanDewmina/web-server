@@ -1,0 +1,5 @@
+{
+    "port": 8080,
+    "max_threads": 8,
+    "web_root": "./www"
+}
