@@ -1,0 +1,33 @@
+# Compiled binaries
+server
+
+# Log files
+*.log
+
+# SSL Certificates and Keys
+*.crt
+*.key
+
+# Object files
+*.o
+
+# Temporary files
+*~
+*.swp
+
+# Docker cache
+*.tmp
+
+# Git metadata
+.git
+
+# Docker artifacts
+docker-compose.override.yml
+
+# Exclude config.json if it contains sensitive data
+config.json
+
+# Exclude build directories
+googletest/build/
+tests/build/
+build/

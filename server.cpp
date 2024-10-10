@@ -18,9 +18,14 @@
 #include <ctime>
 
 
+#include "utils.hpp"
+
+
 // OpenSSL Headers
 #include <openssl/ssl.h>
 #include <openssl/err.h>
+
+
 
 // JSON Parsing Library
 #include "json.hpp"

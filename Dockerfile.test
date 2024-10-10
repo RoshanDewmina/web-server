@@ -1,0 +1,61 @@
+# Dockerfile.test
+
+# Use the official GCC image as the build environment
+FROM gcc:11.2.0 AS builder
+
+# Install necessary packages
+RUN apt-get update && apt-get install -y \
+    libssl-dev \
+    cmake \
+    && rm -rf /var/lib/apt/lists/*
+
+# Set the working directory inside the container
+WORKDIR /usr/src/app
+
+# Copy the project files, excluding those in .dockerignore
+COPY . .
+
+# Build Google Test
+RUN mkdir -p googletest/build && \
+    cd googletest/build && \
+    cmake .. && \
+    make
+
+# Build the test executable
+RUN g++ -std=c++20 \
+    -Igoogletest/googletest/include \
+    -I. \
+    tests/test_main.cpp \ 
+    tests/test_get_mime_type.cpp \
+    tests/test_parse_request.cpp \ 
+    utils.cpp \
+    -Lgoogletest/build/lib \
+    -lgtest \
+    -lgtest_main \
+    -lssl -lcrypto \
+    -pthread \
+    -o run_tests
+
+# Create a minimal runtime environment
+FROM ubuntu:20.04
+
+# Install necessary packages for runtime
+RUN apt-get update && apt-get install -y \
+    libssl-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+# Set the working directory
+WORKDIR /usr/src/app
+
+# Copy the test executable from the builder stage
+COPY --from=builder /usr/src/app/run_tests .
+
+# Copy necessary files for tests (if needed)
+COPY --from=builder /usr/src/app/utils.cpp .
+COPY --from=builder /usr/src/app/utils.hpp .
+COPY --from=builder /usr/src/app/server.cpp .
+COPY --from=builder /usr/src/app/config.json .
+COPY --from=builder /usr/src/app/www ./www
+
+# Command to run tests
+CMD ["./run_tests"]
